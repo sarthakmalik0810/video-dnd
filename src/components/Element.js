@@ -1,8 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
+
 import { elementMap } from "../helper/constants";
 function Element() {
   const [isPlaying, setPlaying] = useState(false);
   const videoRef = useRef(null);
+
   const dragStart = (e) => {
     const target = e.target;
 
@@ -23,11 +25,10 @@ function Element() {
     setPlaying(false);
   };
 
-  useEffect(() => {
-    videoRef.current.addEventListener("ended", () => {
-      setPlaying(false);
-    });
-  }, []);
+  const videoEndHandler = () => {
+    setPlaying(false);
+    console.log("ended");
+  };
 
   const toggleVideo = () => {
     if (!isPlaying) {
@@ -48,6 +49,7 @@ function Element() {
       onClick={toggleVideo}
       onDragStart={dragStart}
       onDragOver={dragOver}
+      onEnded={videoEndHandler}
       src="/video.mov"
       type="video/mov"
     />
